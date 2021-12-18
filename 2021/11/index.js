@@ -29,6 +29,7 @@ const clear = (mutable) => {
     }
   }
   return mutable;
+  
 }
 
 const doSteps = (heightArr) => {
@@ -136,7 +137,7 @@ fs.readFile('./input.txt', 'utf8' , (err, data) => {
     const heights = elements.map(element => parseInt(element, 10))
     heightArr.push(heights)
   }
-  
+
   console.log({answer: calculate(heightArr)})
 })
 
