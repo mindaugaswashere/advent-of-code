@@ -1,60 +1,32 @@
 const fs = require("fs");
 
-function getI(letter) {
-  const alphabet = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  return alphabet.indexOf(letter);
-}
-
-function findSameLetter(first, second) {
-  const arr = [];
-  for (let letter of first) {
-    const cond = second.includes(letter);
-    if (cond > 0) {
-      return letter;
+function counter(a1, a2, b1, b2) {
+  for (let i = a1; i <= a2; i++) {
+    for (let j = b1; j <= b2; j++) {
+      if (i === j) return true;
     }
   }
-
-  return " ";
+  return false;
 }
 
-function program1(lines) {
+function program(lines) {
   let sum = 0;
+  let sum2 = 0;
   lines.forEach((line) => {
-    const first = line.substr(0, line.length / 2);
-    const second = line.substr(line.length / 2, line.length);
-    const letter = findSameLetter(first, second);
+    const splited = line.split(",");
+    const a = splited[0].split("-");
+    const b = splited[1].split("-");
+    const a1 = Number(a[0]);
+    const a2 = Number(a[1]);
+    const b1 = Number(b[0]);
+    const b2 = Number(b[1]);
 
-    sum += getI(letter);
-  });
-  return sum;
-}
-
-function formGroups(lines) {
-  const groups = [];
-  for (let [i, line] of lines.entries()) {
-    if ((i + 1) % 3 == 0) {
-      groups.push([lines[i - 2], lines[i - 1], lines[i]]);
+    if ((a1 <= b1 && a2 >= b2) || (b1 <= a1 && b2 >= a2)) {
+      sum += 1;
     }
-  }
-  return groups;
-}
-
-function findBadge(group) {
-  for (letter of group[0]) {
-    if (group[1].includes(letter) && group[2].includes(letter)) {
-      return letter;
-    }
-  }
-}
-function program2(lines) {
-  let sum = 0;
-  const groups = formGroups(lines);
-  groups.forEach((group) => {
-    const letter = findBadge(group);
-    sum += getI(letter);
+    if (counter(a1, a2, b1, b2)) sum2 += 1;
   });
-
-  return sum;
+  return { sum, sum2 };
 }
 
 fs.readFile("./input.txt", "utf8", (err, data) => {
@@ -64,8 +36,6 @@ fs.readFile("./input.txt", "utf8", (err, data) => {
   }
 
   const lines = data.split("\n");
-  const answer = program1(lines);
-  const answer2 = program2(lines);
-
-  console.log({ answer, answer2 });
+  const { sum, sum2 } = program(lines);
+  console.log({ sum, sum2 });
 });
