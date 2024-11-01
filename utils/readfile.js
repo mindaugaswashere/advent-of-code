@@ -1,15 +1,8 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 
-const readFile = async (file) => {
-  return new Promise((resolve, reject) => {
-    console.log("just a test");
-    fs.readFile(file, "utf8", function (err, data) {
-      if (err) {
-        reject(err);
-      }
-      resolve(data);
-    });
-  });
+const readAndProcessFile = async (file) => {
+  const data = await fs.readFile(file, "utf8");
+  return data.replace(/\r/g, '').split("\n");
 };
 
-module.exports = readFile;
+module.exports = readAndProcessFile;
