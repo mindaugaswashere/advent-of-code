@@ -4,9 +4,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Run 2015/7/index.js",
-      "program": "${workspaceFolder}/2015/7/index.js",
-      "cwd": "${workspaceFolder}/2015/7",
+      "name": "Run 2025/2/index.js",
+      "program": "${workspaceFolder}/2025/2/index.js",
+      "cwd": "${workspaceFolder}/2025/2",
       "console": "integratedTerminal"
     }
   ]
