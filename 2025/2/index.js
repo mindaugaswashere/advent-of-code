@@ -35,9 +35,7 @@ function program1(lines) {
         if (numberedCopy[0] > numberedCopy[1]) {
           increasing = false;
         }
-        console.log({ numberedCopy, numbered });
         numberedCopy.forEach((num, i) => {
-          debugger;
           if (i !== numberedCopy.length - 1) {
             const num2 = numberedCopy[i + 1];
             if (
