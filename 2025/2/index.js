@@ -6,7 +6,6 @@ function program1(lines) {
 
   lines.forEach((report) => {
     let safetyRule = true;
-    let advancedSafetyRule = true;
     const degrees = report.split(" ");
     const numbered = degrees.map((degree) => parseInt(degree, 10));
     let increasing = true;
@@ -27,8 +26,11 @@ function program1(lines) {
     });
     if (safetyRule) {
       safeReports++;
+      advancedReports++;
     } else {
+      let safe = false;
       for (let ind = 0; ind < numbered.length; ind++) {
+        let violations = 0;
         const numberedCopy = [...numbered];
         numberedCopy.splice(ind, 1);
         increasing = true;
@@ -42,16 +44,20 @@ function program1(lines) {
               increasing &&
               (num >= num2 || num2 - num > 3 || num2 - num < 1)
             ) {
-              advancedSafetyRule = false;
+              violations++;
             } else if (
               !increasing &&
               (num <= num2 || num - num2 > 3 || num - num2 < 1)
             )
-              advancedSafetyRule = false;
+              violations++;
           }
         });
+        if (violations === 0) safe = true;
       }
-      if (advancedSafetyRule) advancedReports++;
+      if (safe) {
+        advancedReports++;
+      }
+      violations = 0;
     }
   });
   console.log({ safeReports, advancedReports });
