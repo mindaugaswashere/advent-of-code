@@ -1,59 +1,27 @@
 import fs from "fs";
+import { format } from "path";
 
-function program1(lines: string[]) {
-  let current = 50;
-  let puzzle = 0;
-  lines.forEach((line) => {
-    const [isLeft, value] = lineParser(line);
-    if (isLeft) {
-      for (let i = 0; i < value; i++) {
-        current--;
-        if (current === -1) current = 99;
+function program1(ranges: string[]) {
+  let sum = 0;
+  ranges.forEach((range: string) => {
+    const [from, to] = range.split("-");
+    const ids = formatIds(from, to);
+    ids.forEach((id) => {
+      if (id.length % 2 == 0) {
+        const [a, b] = id.split("", id.length / 2 - 1);
+        console.log({ ids, id, a, b });
       }
-    } else {
-      for (let i = 0; i < value; i++) {
-        current++;
-        if (current === 100) current = 0;
-      }
-    }
-    if (current === 0) puzzle++;
+    });
   });
-  return puzzle;
 }
 
-function program2(lines: string[]) {
-  let current = 50;
-  let puzzle = 0;
-  lines.forEach((line) => {
-    const [isLeft, value] = lineParser(line);
-    if (isLeft) {
-      for (let i = 0; i < value; i++) {
-        current--;
-        if (current === -1) current = 99;
-        if (current === 0) puzzle++;
-      }
-    } else {
-      for (let i = 0; i < value; i++) {
-        current++;
-        if (current === 100) current = 0;
-        if (current === 0) puzzle++;
-      }
-    }
-  });
-  return puzzle;
-}
-
-const lineParser = (line: string): [boolean, number] => {
-  let isLeft = false;
-  if (line.startsWith("L")) {
-    isLeft = true;
-    const num = parseInt(line.split("L").join(""));
-    return [isLeft, num];
-  } else {
-    const num = parseInt(line.split("R").join(""));
-    return [isLeft, num];
+function formatIds(from: string, to: string): string[] {
+  let ids: string[] = [];
+  for (let i = parseInt(from); i <= parseInt(to); i++) {
+    ids.push(`${i}`);
   }
-};
+  return ids;
+}
 
 fs.readFile("./input.txt", "utf8", (err: any, data: string) => {
   if (err) {
@@ -61,9 +29,6 @@ fs.readFile("./input.txt", "utf8", (err: any, data: string) => {
     return;
   }
 
-  const lines = data.split("\n");
-  const answer = program1(lines);
-  const answer2 = program2(lines);
-
-  console.log({ answer, answer2 });
+  const units = data.split(",");
+  const answer = program1(units);
 });
